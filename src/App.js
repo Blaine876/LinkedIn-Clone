@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { Login } from "./pages";
-import { Header, Sidebar, Feed } from "./components";
+import { Header, Sidebar, Feed, Widgets } from "./components";
 
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout, selectUser } from "./reducer/userReducer";
@@ -42,7 +42,7 @@ function App() {
         dispatch(logout());
       }
     });
-  }, []);
+  }, [dispatch]);
 
   return (
     <AppContainer>
@@ -54,6 +54,7 @@ function App() {
         <AppMain>
           <Sidebar />
           <Feed />
+          <Widgets />
         </AppMain>
       )}
     </AppContainer>

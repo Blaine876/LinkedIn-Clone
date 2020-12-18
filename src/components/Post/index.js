@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled from "styled-components";
 
 import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
@@ -7,7 +7,6 @@ import ShareOutlined from "@material-ui/icons/ShareOutlined";
 import SendOutlined from "@material-ui/icons/SendOutlined";
 import { Avatar } from "@material-ui/core";
 import { FeedInputOption } from "../Feed";
-import { Share } from "@material-ui/icons";
 
 const PostContainer = styled.div`
   background-color: white;
@@ -52,9 +51,9 @@ const PostOptionTitle = styled.h4`
   margin-left: 0.5rem;
 `;
 
-const Post = ({ name, description, message, photoUrl }) => {
+const Post = forwardRef(({ name, description, message, photoUrl }, ref) => {
   return (
-    <PostContainer>
+    <PostContainer ref={ref}>
       <PostHeader>
         <Avatar src={photoUrl}>{name[0]}</Avatar>
         <PostInfoDiv>
@@ -89,6 +88,6 @@ const Post = ({ name, description, message, photoUrl }) => {
       </PostButtonsDiv>
     </PostContainer>
   );
-};
+});
 
 export default Post;

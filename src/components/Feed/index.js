@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+import FlipMove from "react-flip-move";
+
 import CreateIcon from "@material-ui/icons/Create";
 import PhotoIcon from "@material-ui/icons/Photo";
 import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
@@ -165,15 +167,17 @@ const Feed = () => {
         </FeedInputOptions>
       </FeedInputContainer>
 
-      {posts.map(({ id, data: { name, description, message, photoUrl } }) => (
-        <Post
-          key={id}
-          name={name}
-          description={description}
-          message={message}
-          photoUrl={photoUrl}
-        />
-      ))}
+      <FlipMove>
+        {posts.map(({ id, data: { name, description, message, photoUrl } }) => (
+          <Post
+            key={id}
+            name={name}
+            description={description}
+            message={message}
+            photoUrl={photoUrl}
+          />
+        ))}
+      </FlipMove>
     </FeedContainer>
   );
 };
