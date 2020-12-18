@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Header, Sidebar } from "./components";
+import { Header, Sidebar, Feed } from "./components";
 
 const AppContainer = styled.div`
   /* display: flex;
@@ -20,6 +20,7 @@ function App() {
       <Header />
       <AppMain>
         <Sidebar />
+        <Feed />
       </AppMain>
     </AppContainer>
   );

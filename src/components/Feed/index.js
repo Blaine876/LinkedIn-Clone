@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import CreateIcon from "@material-ui/icons/Create";
@@ -8,7 +8,9 @@ import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import CalendarViewDayIcon from "@material-ui/icons/CalendarViewDay";
 
-import Post from "../Post";
+import { Post } from "../../components";
+import { db } from "../../config/firebase";
+import firebase from "firebase";
 
 const FeedContainer = styled.div`
   flex: 0.6;
@@ -93,10 +95,32 @@ const StyledEventNoteIcon = styled(EventNoteIcon)`
 `;
 
 const Feed = () => {
+  const [message, setMessage] = useState("");
   const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    db.collection("posts")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) =>
+        setPosts(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        )
+      );
+  }, []);
 
   const submitPost = (e) => {
     e.preventDefault();
+    db.collection("posts").add({
+      name: "Blaine Oakley",
+      description: "This is a test description",
+      message: message,
+      photoUrl: "",
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    setMessage("");
   };
 
   return (
@@ -105,7 +129,11 @@ const Feed = () => {
         <FeedInputDiv>
           <CreateIcon />
           <FeedForm>
-            <InputField type="text" />
+            <InputField
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
             <FormButton onClick={submitPost} type="submit">
               Send
             </FormButton>
@@ -132,15 +160,15 @@ const Feed = () => {
         </FeedInputOptions>
       </FeedInputContainer>
 
-      {posts.map((post) => (
-        <Post />
+      {posts.map(({ id, data: { name, description, message, photoUrl } }) => (
+        <Post
+          key={id}
+          name={name}
+          description={description}
+          message={message}
+          photoUrl={photoUrl}
+        />
       ))}
-
-      <Post
-        name="Blaine Oakley"
-        description="Test description"
-        message="Wow this worked"
-      />
     </FeedContainer>
   );
 };
