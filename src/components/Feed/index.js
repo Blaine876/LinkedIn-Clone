@@ -2,15 +2,18 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import CreateIcon from "@material-ui/icons/Create";
-import ImageIcon from "@material-ui/icons/Image";
 import PhotoIcon from "@material-ui/icons/Photo";
 import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import CalendarViewDayIcon from "@material-ui/icons/CalendarViewDay";
 
 import { Post } from "../../components";
+
 import { db } from "../../config/firebase";
 import firebase from "firebase";
+
+import { useSelector } from "react-redux";
+import { selectUser } from "../../reducer/userReducer";
 
 const FeedContainer = styled.div`
   flex: 0.6;
@@ -95,6 +98,8 @@ const StyledEventNoteIcon = styled(EventNoteIcon)`
 `;
 
 const Feed = () => {
+  const user = useSelector(selectUser);
+
   const [message, setMessage] = useState("");
   const [posts, setPosts] = useState([]);
 
@@ -114,10 +119,10 @@ const Feed = () => {
   const submitPost = (e) => {
     e.preventDefault();
     db.collection("posts").add({
-      name: "Blaine Oakley",
-      description: "This is a test description",
+      name: user.displayName,
+      description: user.email,
       message: message,
-      photoUrl: "",
+      photoUrl: user.photoUrl || "",
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
     setMessage("");

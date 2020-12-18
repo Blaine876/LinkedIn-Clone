@@ -17,6 +17,10 @@ const AppContainer = styled.div`
 
 const AppMain = styled.main`
   display: flex;
+  margin-top: 3.5rem;
+  max-width: 120rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 `;
 
 function App() {

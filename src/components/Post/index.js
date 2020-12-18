@@ -56,7 +56,7 @@ const Post = ({ name, description, message, photoUrl }) => {
   return (
     <PostContainer>
       <PostHeader>
-        <Avatar />
+        <Avatar src={photoUrl}>{name[0]}</Avatar>
         <PostInfoDiv>
           <PostNameText>{name}</PostNameText>
           <PostDescriptionText>{description}</PostDescriptionText>

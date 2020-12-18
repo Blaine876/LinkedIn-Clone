@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
 import backdrop from "../../assets/images/backdrop.jpg";
 
+import { useSelector } from "react-redux";
+import { selectUser } from "../../reducer/userReducer";
+
 const SidebarContainer = styled.div`
   top: 8rem;
   position: sticky;
@@ -112,6 +115,8 @@ const SidebarBottomSubText = styled.h2`
 const SidebarTopicText = styled.p``;
 
 const Sidebar = () => {
+  const user = useSelector(selectUser);
+
   const recentItem = (topic) => (
     <SidebarRecentItem>
       <SidebarSpan>#</SidebarSpan>
@@ -122,9 +127,9 @@ const Sidebar = () => {
     <SidebarContainer>
       <SidebarTopSection>
         <SidebarTopImage src={backdrop} alt="backdrop" />
-        <StyledAvatar />
-        <SidebarTopTitle>Blaine Oakley</SidebarTopTitle>
-        <SidebarTopSubTitle>blaine.oakley@gmail.com</SidebarTopSubTitle>
+        <StyledAvatar src={user.photoUrl}>{user.email[0]}</StyledAvatar>
+        <SidebarTopTitle>{user.displayName}</SidebarTopTitle>
+        <SidebarTopSubTitle>{user.email}</SidebarTopSubTitle>
       </SidebarTopSection>
 
       <SidebarStatsDiv>

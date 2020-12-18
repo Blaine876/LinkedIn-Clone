@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import linkedinLogo from "../../assets/icons/linkedinLogo.png";
-import me from "../../assets/images/me.jpg";
+
+import { Avatar } from "@material-ui/core";
 
 import SearchIcon from "@material-ui/icons/SearchOutlined";
 import HomeIcon from "@material-ui/icons/Home";
@@ -12,7 +13,7 @@ import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import ChatIcon from "@material-ui/icons/Chat";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { auth } from "../../config/firebase";
-import { logout } from "../../reducer/userReducer";
+import { logout, selectUser } from "../../reducer/userReducer";
 
 const HeaderContainer = styled.header`
   position: sticky;
@@ -120,14 +121,17 @@ const StyledNotificationIcon = styled(NotificationsIcon)`
   }
 `;
 
-const AvatarImage = styled.img`
-  height: 2.5rem;
-  width: 2.5rem;
-  border-radius: 30rem;
+const AvatarImage = styled(Avatar)`
+  && {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 30rem;
+  }
 `;
 
 const Header = () => {
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   const logoutUser = () => {
     dispatch(logout());
@@ -170,7 +174,9 @@ const Header = () => {
         </HeaderOptionDiv>
 
         <HeaderOptionDiv>
-          <AvatarImage onClick={logoutUser} src={me} alt="avatar" />
+          <AvatarImage onClick={logoutUser} src={user?.photoUrl} alt="avatar">
+            {user?.email[0]}
+          </AvatarImage>
           <HeaderOptionTitle>Me</HeaderOptionTitle>
         </HeaderOptionDiv>
       </HeaderRight>
