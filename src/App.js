@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { Login } from "./pages";
 import { Header, Sidebar, Feed } from "./components";
 
-import { useSelector } from "react-redux";
-import { selectUser } from "./reducer/userReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout, selectUser } from "./reducer/userReducer";
+import { auth } from "./config/firebase";
 
 const AppContainer = styled.div`
   /* display: flex;
@@ -20,6 +21,24 @@ const AppMain = styled.main`
 
 function App() {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        dispatch(
+          login({
+            email: userAuth.email,
+            uid: userAuth.uid,
+            displayName: userAuth.displayName,
+            photoUrl: userAuth.photoURL,
+          })
+        );
+      } else {
+        dispatch(logout());
+      }
+    });
+  }, []);
 
   return (
     <AppContainer>

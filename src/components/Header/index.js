@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 import linkedinLogo from "../../assets/icons/linkedinLogo.png";
 import me from "../../assets/images/me.jpg";
@@ -10,6 +11,8 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import ChatIcon from "@material-ui/icons/Chat";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import { auth } from "../../config/firebase";
+import { logout } from "../../reducer/userReducer";
 
 const HeaderContainer = styled.header`
   position: sticky;
@@ -124,6 +127,12 @@ const AvatarImage = styled.img`
 `;
 
 const Header = () => {
+  const dispatch = useDispatch();
+
+  const logoutUser = () => {
+    dispatch(logout());
+    auth.signOut();
+  };
   return (
     <HeaderContainer>
       <HeaderLeft>
@@ -161,7 +170,7 @@ const Header = () => {
         </HeaderOptionDiv>
 
         <HeaderOptionDiv>
-          <AvatarImage src={me} alt="avatar" />
+          <AvatarImage onClick={logoutUser} src={me} alt="avatar" />
           <HeaderOptionTitle>Me</HeaderOptionTitle>
         </HeaderOptionDiv>
       </HeaderRight>
