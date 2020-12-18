@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
+import { Login } from "./pages";
 import { Header, Sidebar, Feed } from "./components";
+
+import { useSelector } from "react-redux";
+import { selectUser } from "./reducer/userReducer";
 
 const AppContainer = styled.div`
   /* display: flex;
@@ -15,13 +19,20 @@ const AppMain = styled.main`
 `;
 
 function App() {
+  const user = useSelector(selectUser);
+
   return (
     <AppContainer>
       <Header />
-      <AppMain>
-        <Sidebar />
-        <Feed />
-      </AppMain>
+
+      {!user ? (
+        <Login />
+      ) : (
+        <AppMain>
+          <Sidebar />
+          <Feed />
+        </AppMain>
+      )}
     </AppContainer>
   );
 }
